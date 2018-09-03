@@ -1,0 +1,55 @@
+# Default values for des-labs-mysql.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+namespace: 'default'
+
+replicaFront: 1
+replicaWorkers: 1
+replicaMonitor: 1
+
+ingressFront:
+  class: "nginx"
+  ssl: "false"
+
+ingressMonitor:
+  class: "nginx"
+  ssl: "false"
+
+commands:
+  front:
+    - "python"
+    - "/home/des/desaccess/deslabs.py"
+  workers:
+    - "/bin/bash"
+    - "-c"
+    - "celery worker  -A ea_tasks   -E -Ofair --loglevel=info"
+  monitor:
+    - "/bin/bash"
+    - "-c"
+    - "flower -A ea_tasks  --url_prefix=flower"
+
+
+storage:
+  type: local
+  className: manual
+  capacity: 150Gi
+  access: "ReadWriteMany"
+  path: "/home/matias/kubedata/external/easyweb/workdir"
+
+image:
+  uid: 1001
+  gid: 1001
+  repository: desaccess
+  tag: deslabs-dev
+  pullPolicy: IfNotPresent
+
+serviceFront:
+  type: NodePort
+  #type: ClusterIP
+  port: 8080
+
+serviceMonitor:
+  type: NodePort
+  #type: ClusterIP
+  port: 5555

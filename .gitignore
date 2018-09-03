@@ -1,6 +1,8 @@
 config/*
 mysql/des-labs-mysql/config/
 redis/des-labs-redis/config/
+desaccess/des-labs/config/
 mysql/deploy*.yaml
 redis/deploy*.yaml
-
+desaccess/deploy*.yaml
+desaccess/desaccess

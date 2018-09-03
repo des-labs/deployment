@@ -1,0 +1,81 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: "{{ .Chart.Name }}-front"
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Chart.Name }}-front"
+  strategy:
+    type: Recreate
+  replicas: {{ .Values.replicaFront }}
+  template:
+    metadata:
+      labels:
+        app: "{{ .Chart.Name }}-front"
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.image.uid }}
+        runAsGroup: {{ .Values.image.gid }}
+      initContainers:
+      - name: volume-hack
+        image: busybox
+        command: ["sh", "-c", "cp /home/des/temp/.desservices.ini /home/des/oracle/.desservices.ini"] 
+        volumeMounts:
+        - name: desaccess-secret
+          mountPath: "/home/des/temp/.desservices.ini"
+          subPath: ".desservices.ini"
+        - name: workdir
+          mountPath: "/home/des/oracle"
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ .Chart.Name }}
+        #command: ["python", "/home/des/desaccess/deslabs.py"] 
+        command:
+          {{- range .Values.commands.front }}
+          - {{ . | quote }}
+          {{- end }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: POD_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: DES_SERVICES
+          value: "/home/des/oracle/.desservices.ini"
+        ports:
+        - containerPort: {{ .Values.serviceFront.port }}
+          name: {{ .Chart.Name }}
+        volumeMounts:
+        - name: workdir
+          mountPath: "/home/des/oracle"
+        - name: easyweb
+          mountPath: "/home/des/desaccess/easyweb/static/workdir"
+        - name: desaccess-secret
+          mountPath: "/home/des/desaccess/config/celeryconfig.py"
+          subPath: "celeryconfig.py"
+        - name: desaccess-secret
+          mountPath: "/home/des/desaccess/config/desaccess.yaml"
+          subPath: "desaccess.yaml"
+      volumes:
+      - name: easyweb
+        persistentVolumeClaim:
+          claimName: {{ .Chart.Name }} 
+      - name: db-config
+        secret:
+          secretName: desservices
+      - name: celery
+        secret:
+          secretName: celery-config
+      - name: desaccess
+        secret:
+          secretName: desaccess-config
+      - name: workdir
+        emptyDir: {}
+      - name: desaccess-secret
+        secret:
+          secretName: "{{ .Chart.Name }}-secret"

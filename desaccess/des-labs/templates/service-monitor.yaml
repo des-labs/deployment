@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Chart.Name }}-monitor"
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  type: {{ .Values.serviceMonitor.type }}
+  ports:
+  - port: {{ .Values.serviceMonitor.port }}
+  selector:
+    app: "{{ .Chart.Name }}-monitor"

@@ -1,0 +1,76 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: "{{ .Chart.Name }}-workers"
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Chart.Name }}-workers"
+  strategy:
+    type: Recreate
+  replicas: {{ .Values.replicaWorkers }}
+  template:
+    metadata:
+      labels:
+        app: "{{ .Chart.Name }}-workers"
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.image.uid }}
+        runAsGroup: {{ .Values.image.gid }}
+      initContainers:
+      - name: volume-hack
+        image: busybox
+        command: ["sh", "-c", "cp /home/des/temp/.desservices.ini /home/des/oracle/.desservices.ini"] 
+        volumeMounts:
+        - name: db-config
+          mountPath: "/home/des/temp"
+        - name: workdir
+          mountPath: "/home/des/oracle"
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ .Chart.Name }}
+        #command: ["/bin/bash", "-c", "celery worker  -A ea_tasks -f logs/$POD_ID/worker.log  -E -Ofair --loglevel=info"]
+        #command: ["/bin/bash", "-c", "celery worker  -A ea_tasks   -E -Ofair --loglevel=info"]
+        command:
+          {{- range .Values.commands.workers }}
+          - {{ . | quote }}
+          {{- end }}
+
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: POD_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: DES_SERVICES
+          value: "/home/des/oracle/.desservices.ini"
+        volumeMounts:
+        - name: workdir
+          mountPath: "/home/des/oracle"
+        - name: easyweb
+          mountPath: "/home/des/desaccess/easyweb/static/workdir"
+        - name: celery
+          mountPath: "/home/des/desaccess/config/celeryconfig.py"
+          subPath: "celeryconfig.py"
+        - name: desaccess
+          mountPath: "/home/des/desaccess/config/desaccess.yaml"
+          subPath: "desaccess.yaml"
+      volumes:
+      - name: easyweb
+        persistentVolumeClaim:
+          claimName: {{ .Chart.Name }} 
+      - name: db-config
+        secret:
+          secretName: desservices
+      - name: celery
+        secret:
+          secretName: celery-config
+      - name: desaccess
+        secret:
+          secretName: desaccess-config
+      - name: workdir
+        emptyDir: {}

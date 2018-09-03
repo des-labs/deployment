@@ -1,0 +1,49 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: "{{ .Chart.Name }}-monitor"
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Chart.Name }}-monitor"
+  strategy:
+    type: Recreate
+  replicas: {{ .Values.replicaMonitor }}
+  template:
+    metadata:
+      labels:
+        app: "{{ .Chart.Name }}-monitor"
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.image.uid }}
+        runAsGroup: {{ .Values.image.gid }}
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ .Chart.Name }}
+        #command: ["/bin/bash", "-c", "flower -A ea_tasks  --url_prefix=flower"] 
+        command:
+          {{- range .Values.commands.monitor }}
+          - {{ . | quote }}
+          {{- end }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.serviceMonitor.port }}
+          name: {{ .Chart.Name }}
+        volumeMounts:
+        - name: celery
+          mountPath: "/home/des/desaccess/config/celeryconfig.py"
+          subPath: "celeryconfig.py"
+        - name: desaccess
+          mountPath: "/home/des/desaccess/config/desaccess.yaml"
+          subPath: "desaccess.yaml"
+      volumes:
+      - name: celery
+        secret:
+          secretName: celery-config
+      - name: desaccess
+        secret:
+          secretName: desaccess-config

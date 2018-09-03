@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "{{ .Chart.Name }}-front"
+  namespace: {{ .Values.namespace }}
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: {{ .Values.ingressFront.ssl }}
+    kubernetes.io/ingress.class: {{ .Values.ingressFront.class }}
+spec:
+  rules:
+  - http:
+     paths:
+     - path: /easyweb
+       backend:
+         serviceName: "{{ .Chart.Name }}-front"
+         servicePort: {{ .Values.serviceFront.port }}
+

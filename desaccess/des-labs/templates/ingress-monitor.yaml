@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "{{ .Chart.Name }}-monitor"
+  namespace: {{ .Values.namespace }}
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: {{ .Values.ingressMonitor.ssl }}
+    kubernetes.io/ingress.class: {{ .Values.ingressMonitor.class }}
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+     paths:
+     - path: /flower
+       backend:
+         serviceName: "{{ .Chart.Name }}-monitor"
+         servicePort: {{ .Values.serviceMonitor.port }}
+
