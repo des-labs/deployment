@@ -5,4 +5,5 @@ desaccess/des-labs/config/
 mysql/deploy*.yaml
 redis/deploy*.yaml
 desaccess/deploy*.yaml
+deslabs-frontpage/deploy*.yaml
 desaccess/desaccess

@@ -1,0 +1,2 @@
+helm template frontpage > deploy_frontpage.yaml
+kubectl apply -f deploy_frontpage.yaml
