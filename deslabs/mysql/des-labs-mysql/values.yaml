@@ -6,23 +6,23 @@ namespace: 'default'
 # Only one should be enabled
 storage:
   local:
-    enabled: false
+    enabled: true
     type: local
     className: manual
-    path: "/home/matias/kubedata/external/mysql"
+    path: "/external/mysql"
   nfs:
-    enabled: true
+    enabled: false
     type: nfs
     className: standard
     server: "10.97.10.5"
     path: "/exports/mysql"
-  capacity: 150Gi
+  capacity: 30Gi
   access: "ReadWriteMany"
   
 
 image:
-  uid: 1000
-  gid: 1000
+  uid: 1001
+  gid: 1001
   repository: mysql
   tag: 5.7
   pullPolicy: IfNotPresent
