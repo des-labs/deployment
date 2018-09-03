@@ -1,7 +1,3 @@
+cp CONFIG des-labs-mysql/config/ (3 yaml files)
 helm template des-labs-mysql  > deploy_des-labs-mysql.yaml
 kubectl apply -f deploy_des-labs-mysql.yaml
--- inside mysql
-create database des
-create user 'des_admin' identified by 'rules'
-grant all privileges on des.Jobs to 'des_admin';
-grant all privileges on des.tokens to 'des_admin'

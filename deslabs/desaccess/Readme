@@ -1,4 +1,4 @@
 docker build -t desaccess:deslabs-dev .
-cp CONFIG des-labs/config
+cp CONFIG des-labs/config (.desservices.ini, desaccess.yaml, celeryconfig.py)
 helm template des-labs > deploy_des-labs.yaml
 kubectl apply -f deploy_des-labs.yaml

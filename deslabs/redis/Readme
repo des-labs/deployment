@@ -1,2 +1,3 @@
+cp CONFIG des-labs-redis/config/redis.conf
 helm template des-labs-redis > deploy_des-labs-redis.yaml
 kubectl apply -f deploy_des-labs-redis.yaml
