@@ -1,20 +1,28 @@
-# Default values for des-labs-mysql.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+# REDIS
 
 replicaCount: 1
 namespace: 'default'
 
+# Only one should be enabled
 storage:
-  type: local
-  className: manual
+  local:
+    enabled: false
+    type: local
+    className: manual
+    path: "/home/matias/kubedata/external/redis"
+  nfs:
+    enabled: true
+    type: nfs
+    className: standard
+    server: "10.97.10.5"
+    path: "/exports/redis"
   capacity: 150Gi
   access: "ReadWriteMany"
-  path: "/home/matias/kubedata/external/redis"
+
 
 image:
-  uid: 1001
-  gid: 1001
+  uid: 1000
+  gid: 1000
   repository: redis
   tag: 4.0
   pullPolicy: IfNotPresent

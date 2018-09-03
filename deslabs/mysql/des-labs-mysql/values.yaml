@@ -1,7 +1,4 @@
-# Default values for des-labs-mysql.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
+# MYSQL
 replicaCount: 1
 namespace: 'default'
 
