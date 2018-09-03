@@ -6,7 +6,7 @@ metadata:
   annotations:
     ingress.kubernetes.io/ssl-redirect: {{ .Values.ingressMonitor.ssl }}
     kubernetes.io/ingress.class: {{ .Values.ingressMonitor.class }}
-    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
