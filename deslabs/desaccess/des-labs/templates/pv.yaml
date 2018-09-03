@@ -1,16 +1,38 @@
+{{- if .Values.storage.local.enabled }}
 kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: {{ .Chart.Name }}
   labels:
-    type: {{ .Values.storage.type }}
+    type: {{ .Values.storage.local.type }}
     chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
     release: {{ .Chart.Version }}
 spec:
-  storageClassName: {{ .Values.storage.className }}
+  storageClassName: {{ .Values.storage.local.className }}
   capacity:
     storage: {{ .Values.storage.capacity }}
   accessModes:
     - {{ .Values.storage.access }}
   hostPath:
-    path: {{ .Values.storage.path }}
+    path: {{ .Values.storage.local.path }}
+{{- end }}
+
+{{- if .Values.storage.nfs.enabled }}
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    type: {{ .Values.storage.nfs.type }}
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  storageClassName: {{ .Values.storage.nfs.className }}
+  capacity:
+    storage: {{ .Values.storage.capacity }}
+  accessModes:
+    - {{ .Values.storage.access }}
+  nfs:
+    server: {{ .Values.storage.nfs.server | quote }}
+    path: {{ .Values.storage.nfs.path | quote }}
+{{- end }}

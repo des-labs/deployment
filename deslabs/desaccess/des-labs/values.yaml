@@ -1,7 +1,5 @@
-# Default values for des-labs-mysql.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
+# DESACCESS
+#
 namespace: 'default'
 
 replicaFront: 1
@@ -30,17 +28,28 @@ commands:
     - "flower -A ea_tasks  --url_prefix=flower"
 
 
+# Only one should be enabled
 storage:
-  type: local
-  className: manual
-  capacity: 150Gi
+  local:
+    enabled: false
+    type: local
+    className: manual
+    path: "/home/matias/kubedata/external/easyweb/workdir"
+  nfs:
+    enabled: true
+    type: nfs
+    className: standard
+    server: "10.97.10.5"
+    path: "/exports/easyweb/workdir"
+  capacity: 1500Gi
   access: "ReadWriteMany"
-  path: "/home/matias/kubedata/external/easyweb/workdir"
+
+
 
 image:
   uid: 1001
   gid: 1001
-  repository: desaccess
+  repository: mgckind/desaccess
   tag: deslabs-dev
   pullPolicy: IfNotPresent
 
