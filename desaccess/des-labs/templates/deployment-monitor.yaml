@@ -24,7 +24,7 @@ spec:
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ .Chart.Name }}
-        #command: ["/bin/bash", "-c", "flower -A ea_tasks  --url_prefix=flower"] 
+        #command: ["/bin/bash", "-c", "flower -A ea_tasks  --url_prefix=flower"]
         command:
           {{- range .Values.commands.monitor }}
           - {{ . | quote }}
@@ -34,16 +34,13 @@ spec:
         - containerPort: {{ .Values.serviceMonitor.port }}
           name: {{ .Chart.Name }}
         volumeMounts:
-        - name: celery
+        - name: config-all
           mountPath: "/home/des/desaccess/config/celeryconfig.py"
           subPath: "celeryconfig.py"
-        - name: desaccess
+        - name: config-all
           mountPath: "/home/des/desaccess/config/desaccess.yaml"
           subPath: "desaccess.yaml"
       volumes:
-      - name: celery
+      - name: config-all
         secret:
-          secretName: celery-config
-      - name: desaccess
-        secret:
-          secretName: desaccess-config
+          secretName: "{{ .Chart.Name }}"

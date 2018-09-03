@@ -24,10 +24,11 @@ spec:
       initContainers:
       - name: volume-hack
         image: busybox
-        command: ["sh", "-c", "cp /home/des/temp/.desservices.ini /home/des/oracle/.desservices.ini"] 
+        command: ["sh", "-c", "cp /home/des/temp/.desservices.ini /home/des/oracle/.desservices.ini"]
         volumeMounts:
-        - name: db-config
-          mountPath: "/home/des/temp"
+        - name: config-all
+          mountPath: "/home/des/temp/.desservices.ini"
+          subPath: ".desservices.ini"
         - name: workdir
           mountPath: "/home/des/oracle"
       containers:
@@ -53,24 +54,18 @@ spec:
           mountPath: "/home/des/oracle"
         - name: easyweb
           mountPath: "/home/des/desaccess/easyweb/static/workdir"
-        - name: celery
+        - name: config-all
           mountPath: "/home/des/desaccess/config/celeryconfig.py"
           subPath: "celeryconfig.py"
-        - name: desaccess
+        - name: config-all
           mountPath: "/home/des/desaccess/config/desaccess.yaml"
           subPath: "desaccess.yaml"
       volumes:
       - name: easyweb
         persistentVolumeClaim:
-          claimName: {{ .Chart.Name }} 
-      - name: db-config
-        secret:
-          secretName: desservices
-      - name: celery
-        secret:
-          secretName: celery-config
-      - name: desaccess
-        secret:
-          secretName: desaccess-config
+          claimName: {{ .Chart.Name }}
       - name: workdir
         emptyDir: {}
+      - name: config-all
+        secret:
+          secretName: "{{ .Chart.Name }}"

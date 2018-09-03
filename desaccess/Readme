@@ -1,6 +1,4 @@
 docker build -t desaccess:deslabs-dev .
-kubectl create secret generic desservices --from-file=<CONF FILE> -n <NAMESPACE>
-kubectl create secret generic desaccess-config --from-file=<CONF FILE> -n <NAMESPACE>
-kubectl create secret generic celery-config --from-file=<CONF FILE> -n <NAMESPACE>
-helm template des-labs > deploy_all.yaml
-kubectl apply -f deploy_all.yaml
+cp CONFIG des-labs/config
+helm template des-labs > deploy_des-labs.yaml
+kubectl apply -f deploy_des-labs.yaml

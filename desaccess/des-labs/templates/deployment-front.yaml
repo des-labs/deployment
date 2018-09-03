@@ -24,9 +24,9 @@ spec:
       initContainers:
       - name: volume-hack
         image: busybox
-        command: ["sh", "-c", "cp /home/des/temp/.desservices.ini /home/des/oracle/.desservices.ini"] 
+        command: ["sh", "-c", "cp /home/des/temp/.desservices.ini /home/des/oracle/.desservices.ini"]
         volumeMounts:
-        - name: desaccess-secret
+        - name: config-all
           mountPath: "/home/des/temp/.desservices.ini"
           subPath: ".desservices.ini"
         - name: workdir
@@ -34,7 +34,7 @@ spec:
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ .Chart.Name }}
-        #command: ["python", "/home/des/desaccess/deslabs.py"] 
+        #command: ["python", "/home/des/desaccess/deslabs.py"]
         command:
           {{- range .Values.commands.front }}
           - {{ . | quote }}
@@ -55,27 +55,18 @@ spec:
           mountPath: "/home/des/oracle"
         - name: easyweb
           mountPath: "/home/des/desaccess/easyweb/static/workdir"
-        - name: desaccess-secret
+        - name: config-all
           mountPath: "/home/des/desaccess/config/celeryconfig.py"
           subPath: "celeryconfig.py"
-        - name: desaccess-secret
+        - name: config-all
           mountPath: "/home/des/desaccess/config/desaccess.yaml"
           subPath: "desaccess.yaml"
       volumes:
       - name: easyweb
         persistentVolumeClaim:
-          claimName: {{ .Chart.Name }} 
-      - name: db-config
-        secret:
-          secretName: desservices
-      - name: celery
-        secret:
-          secretName: celery-config
-      - name: desaccess
-        secret:
-          secretName: desaccess-config
+          claimName: {{ .Chart.Name }}
       - name: workdir
         emptyDir: {}
-      - name: desaccess-secret
+      - name: config-all
         secret:
-          secretName: "{{ .Chart.Name }}-secret"
+          secretName: "{{ .Chart.Name }}"
