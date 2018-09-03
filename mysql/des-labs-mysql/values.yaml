@@ -1,0 +1,25 @@
+# Default values for des-labs-mysql.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+namespace: 'default'
+
+storage:
+  type: local
+  className: manual
+  capacity: 150Gi
+  access: "ReadWriteMany"
+  path: "/home/matias/kubedata/external/mysql"
+
+image:
+  uid: 1001
+  gid: 1001
+  repository: mysql
+  tag: 5.7
+  pullPolicy: IfNotPresent
+
+service:
+  #type: NodePort
+  type: ClusterIP
+  port: 3306

@@ -1,0 +1,16 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  storageClassName: {{ .Values.storage.className }}
+  accessModes:
+    - {{ .Values.storage.access }}
+  resources:
+    requests:
+      storage: {{ .Values.storage.capacity }}
+  volumeName: {{ .Chart.Name }}
