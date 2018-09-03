@@ -1,0 +1,5 @@
+apiVersion: v1
+appVersion: "1.0"
+description: Single Pod Redis Deployment
+name: des-labs-redis
+version: 0.1.0

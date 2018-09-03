@@ -1,3 +1,6 @@
 config/*
 mysql/des-labs-mysql/config/
+redis/des-labs-redis/config/
 mysql/deploy*.yaml
+redis/deploy*.yaml
+

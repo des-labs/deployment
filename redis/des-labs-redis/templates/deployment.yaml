@@ -1,0 +1,44 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.image.uid }}
+        fsGroup: {{ .Values.image.gid }}
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ .Chart.Name }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        args: ["/usr/local/etc/redis/redis.conf"]
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          name: {{ .Chart.Name }}
+        volumeMounts:
+        - name: redis-persistent-storage
+          mountPath: /data
+        - name: redis-configuration
+          mountPath: /usr/local/etc/redis/redis.conf
+          subPath: "redis.conf"
+          readOnly: true
+      volumes:
+      - name: redis-persistent-storage
+        persistentVolumeClaim:
+          claimName: {{ .Chart.Name }}
+      - name: redis-configuration
+        secret:
+          secretName: {{ .Chart.Name }}
