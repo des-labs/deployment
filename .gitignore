@@ -7,3 +7,5 @@ deslabs/redis/deploy*.yaml
 deslabs/desaccess/deploy*.yaml
 deslabs/deslabs-frontpage/deploy*.yaml
 deslabs/desaccess/desaccess
+
+desheart/grafana/deploy_grafana.yaml

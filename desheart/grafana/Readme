@@ -1,0 +1,1 @@
+helm template grafana > deploy_grafana.yaml
