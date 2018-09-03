@@ -1,3 +1,2 @@
-kubectl create secret generic redis-conf --from-file=<CONF FILE> -n <NAMESPACE>
-helm template des-labs-redis > deploy_all.yaml
-kubectl apply -f deploy_all.yaml
+helm template des-labs-redis > deploy_des-labs-redis.yaml
+kubectl apply -f deploy_des-labs-redis.yaml
