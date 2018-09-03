@@ -7,7 +7,12 @@ metadata:
     chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
     release: {{ .Chart.Version }}
 spec:
-  storageClassName: {{ .Values.storage.className }}
+  {{- if .Values.storage.local.enabled }} 
+  storageClassName: {{ .Values.storage.local.className }}
+  {{- end }}
+  {{- if .Values.storage.nfs.enabled }} 
+  storageClassName: {{ .Values.storage.nfs.className }}
+  {{- end }}
   accessModes:
     - {{ .Values.storage.access }}
   resources:

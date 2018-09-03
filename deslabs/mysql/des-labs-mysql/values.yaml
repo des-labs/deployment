@@ -5,16 +5,27 @@
 replicaCount: 1
 namespace: 'default'
 
+
+# Only one should be enabled
 storage:
-  type: local
-  className: manual
+  local:
+    enabled: false
+    type: local
+    className: manual
+    path: "/home/matias/kubedata/external/mysql"
+  nfs:
+    enabled: true
+    type: nfs
+    className: standard
+    server: "10.97.10.5"
+    path: "/exports/mysql"
   capacity: 150Gi
   access: "ReadWriteMany"
-  path: "/home/matias/kubedata/external/mysql"
+  
 
 image:
-  uid: 1001
-  gid: 1001
+  uid: 1000
+  gid: 1000
   repository: mysql
   tag: 5.7
   pullPolicy: IfNotPresent
