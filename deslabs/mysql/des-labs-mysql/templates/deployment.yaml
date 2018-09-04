@@ -31,8 +31,8 @@ spec:
         name: {{ .Chart.Name }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         #command: ["mysqld"]
-        #command: ["mysqld_safe"]
-        #args: ["--skip-grant-tables"]
+        command: ["mysqld_safe"]
+        args: ["--skip-grant-tables"]
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
