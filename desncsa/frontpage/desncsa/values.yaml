@@ -1,0 +1,22 @@
+# DES-NCSA Website
+# des.ncsa.illinois.edu
+#
+namespace: 'default'
+
+replicaCount: 1
+
+ingress:
+  class: "nginx"
+  ssl: "false"
+
+image:
+  uid: 1001
+  gid: 1001
+  repository: mgckind/des-ncsa
+  tag: dev
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  #type: ClusterIP
+  port: 8080

@@ -12,3 +12,4 @@ desheart/grafana/deploy_grafana.yaml
 
 desncsa/config/*
 desncsa/frontpage/desncsa/config/
+desncsa/frontpage/deploy*.yaml
