@@ -13,7 +13,7 @@ image:
   uid: 1001
   gid: 1001
   repository: mgckind/des-ncsa
-  tag: y1
+  tag: y1-dev
   pullPolicy: IfNotPresent
 
 service:
