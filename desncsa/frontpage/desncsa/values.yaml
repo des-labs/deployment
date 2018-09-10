@@ -6,14 +6,14 @@ namespace: 'default'
 replicaCount: 1
 
 ingress:
-  class: "nginx"
+  class: "internal"
   ssl: "false"
 
 image:
   uid: 1001
   gid: 1001
   repository: mgckind/des-ncsa
-  tag: dev
+  tag: y1
   pullPolicy: IfNotPresent
 
 service:

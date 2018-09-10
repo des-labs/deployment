@@ -7,7 +7,7 @@ RUN useradd --create-home --shell /bin/bash des --uid 1001
 # Copy code
 WORKDIR /home/des
 USER des
-# clone repo
+# clone repo branch y1
 RUN git clone -b y1 https://github.com/mgckind/des_ncsa.git
 WORKDIR /home/des/des_ncsa
 CMD [ "python", "main.py" ]

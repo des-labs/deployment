@@ -1,6 +1,6 @@
 git clone https://github.com/mgckind/des_ncsa.git
 git checkout y1
-docker build -t desaccess:deslabs-dev .
-cp CONFIG desncsa/config (desaccess.yaml)
+docker build -t mgckind/des-ncsa:y1 .
+cp CONFIG des-ncsa/config (desaccess.yaml)
 helm template desncsa > deploy_desncsa.yaml
 kubectl apply -f deploy_desncsa.yaml
