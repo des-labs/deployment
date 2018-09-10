@@ -7,7 +7,7 @@ replicaCount: 1
 
 ingress:
   class: "internal"
-  ssl: "false"
+  ssl: "true"
 
 image:
   uid: 1001
