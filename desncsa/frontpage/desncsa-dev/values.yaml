@@ -3,20 +3,20 @@
 #
 namespace: 'default'
 
-replicaCount: 3
+replicaCount: 1
 
 ingress:
-  class: "nginx"
+  class: "internal"
   ssl: "true"
 
 image:
   uid: 1001
   gid: 1001
   repository: mgckind/des-ncsa
-  tag: release-y1
+  tag: y1-dev1
   pullPolicy: IfNotPresent
 
 service:
-  #type: NodePort
-  type: ClusterIP
+  type: NodePort
+  #type: ClusterIP
   port: 8080
