@@ -14,7 +14,7 @@ storage:
     enabled: false
     type: nfs
     className: standard
-    server: "10.97.10.5"
+    server: "10.101.140.143"
     path: "/exports/mysql"
   capacity: 30Gi
   access: "ReadWriteMany"

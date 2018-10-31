@@ -2,8 +2,8 @@
 #
 namespace: 'default'
 
-replicaFront: 1
-replicaWorkers: 1
+replicaFront: 2
+replicaWorkers: 4
 replicaMonitor: 1
 
 ingressFront:
@@ -39,7 +39,7 @@ storage:
     enabled: true
     type: nfs
     className: standard
-    server: "10.97.10.5"
+    server: "10.101.140.143"
     path: "/exports/easyweb/workdir"
   capacity: 1500Gi
   access: "ReadWriteMany"

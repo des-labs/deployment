@@ -14,7 +14,7 @@ storage:
     enabled: true
     type: nfs
     className: standard
-    server: "10.97.10.5"
+    server: "10.101.140.143"
     path: "/exports/redis"
   capacity: 150Gi
   access: "ReadWriteMany"
