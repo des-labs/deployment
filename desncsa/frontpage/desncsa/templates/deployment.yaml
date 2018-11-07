@@ -11,7 +11,11 @@ spec:
     matchLabels:
       app: "{{ .Chart.Name }}"
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
   replicas: {{ .Values.replicaCount }}
   template:
     metadata:
