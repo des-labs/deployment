@@ -1,6 +1,6 @@
 # MYSQL
 replicaCount: 1
-namespace: 'default'
+namespace: 'deslabs'
 
 
 # Only one should be enabled
@@ -9,7 +9,7 @@ storage:
     enabled: true
     type: local
     className: manual
-    path: "/external/mysql"
+    path: "/des004/deslabs/mysql"
   nfs:
     enabled: false
     type: nfs

@@ -1,10 +1,10 @@
 # DESLABS FRONTPAGE
 
 replicaCount: 2
-namespace: 'default'
+namespace: 'deslabs'
 
 ingress:
-  class: "nginx"
+  class: "deslabs"
   ssl: "false"
 
 image:

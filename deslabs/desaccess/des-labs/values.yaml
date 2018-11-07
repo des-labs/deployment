@@ -1,17 +1,17 @@
 # DESACCESS
 #
-namespace: 'default'
+namespace: 'deslabs'
 
 replicaFront: 2
-replicaWorkers: 4
+replicaWorkers: 2
 replicaMonitor: 1
 
 ingressFront:
-  class: "nginx"
+  class: "deslabs"
   ssl: "false"
 
 ingressMonitor:
-  class: "nginx"
+  class: "deslabs"
   ssl: "false"
 
 commands:
@@ -31,12 +31,12 @@ commands:
 # Only one should be enabled
 storage:
   local:
-    enabled: false
+    enabled: true
     type: local
     className: manual
-    path: "/home/matias/kubedata/external/easyweb/workdir"
+    path: "/des004/deslabs/easyweb/workdir"
   nfs:
-    enabled: true
+    enabled: false
     type: nfs
     className: standard
     server: "10.101.140.143"
