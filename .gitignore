@@ -9,6 +9,8 @@ deslabs/deslabs-frontpage/deploy*.yaml
 deslabs/desaccess/desaccess
 
 desheart/grafana/deploy_grafana.yaml
+desheart/monitor/deploy*
+desheart/monitor/monitor/config/
 
 desncsa/config/*
 desncsa/frontpage/desncsa/config/
