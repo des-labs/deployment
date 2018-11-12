@@ -1,0 +1,56 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.image.uid }}
+        fsGroup: {{ .Values.image.gid }}
+      initContainers:
+      - name: volume-hack
+        image: busybox
+        command: ["sh", "-c", "cp /home/des/temp/.desservices.ini /home/des/easy/.desservices.ini"]
+        volumeMounts:
+        - name: config-all
+          mountPath: "/home/des/temp/.desservices.ini"
+          subPath: ".desservices.ini"
+        - name: workdir
+          mountPath: "/home/des/easy"
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: {{ .Chart.Name }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: POD_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: DES_SERVICES
+          value: "/home/des/easy/.desservices.ini"
+        volumeMounts:
+        - name: workdir
+          mountPath: "/home/des/easy"
+        - name: config-all
+          mountPath: "/home/des/config/config_monitor.yaml"
+          subPath: "config_monitor.yaml"
+      volumes:
+      - name: workdir
+        emptyDir: {}
+      - name: config-all
+        secret:
+          secretName: "{{ .Chart.Name }}"
+

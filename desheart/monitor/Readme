@@ -1,0 +1,2 @@
+cp CONFIG monitor/config/monitor (3 yaml files)
+helm template monitor > deploy_des-monitor.yaml

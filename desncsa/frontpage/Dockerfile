@@ -9,6 +9,6 @@ WORKDIR /home/des
 USER des
 # clone repo branch
 ADD https://api.github.com/repos/mgckind/des_ncsa/git/refs/heads/master /home/des/version.json
-RUN git  clone https://github.com/mgckind/des_ncsa.git
+RUN git clone https://github.com/mgckind/des_ncsa.git
 WORKDIR /home/des/des_ncsa
 CMD [ "python", "main.py" ]
