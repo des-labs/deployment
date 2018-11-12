@@ -7,6 +7,6 @@ image:
   uid: 1000
   gid: 1000
   repository: mgckind/des_heart
-  tag: "1.0"
+  tag: "1.1"
   pullPolicy: IfNotPresent
 
