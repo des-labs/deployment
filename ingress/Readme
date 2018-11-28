@@ -1,0 +1,20 @@
+https://github.com/kubernetes/ingress/tree/master/examples/rbac/nginx
+Add :
+    spec:
+      serviceAccountName: nginx-ingress-serviceaccount
+      hostNetwork: true
+and
+
+          ports:
+          - name: http
+            containerPort: 80
+            hostPort: 80
+
+and nodeSelector:
+      nodetype:master
+
+kubectl create namespace nginx-ingress
+add tls.crt and tls.key to config
+kubectl label node minikube nodetype=master
+helm template ingress-controller > deploy_controller.yaml
+helm template default-backend > deploy_backend.yaml

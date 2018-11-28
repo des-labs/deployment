@@ -1,0 +1,20 @@
+# NGINX INGRESS CONTROLLER
+
+replicaCount: 1
+namespace: 'nginx-ingress'
+backendName: 'default-backend'
+
+
+image:
+  repository: quay.io/kubernetes-ingress-controller/nginx-ingress-controller
+  tag: 0.21.0
+  pullPolicy: IfNotPresent
+
+rbac:
+  resourceNames:
+    - "ingress-controller-leader-nginx"
+    - "ingress-controller-leader-internal"
+
+nodeSelector:
+  key: nodetype
+  value: master

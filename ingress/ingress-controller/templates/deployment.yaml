@@ -1,0 +1,51 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Chart.Name }}"
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+      serviceAccountName: {{ .Chart.Name }}
+      hostNetwork: true
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        args:
+             - /nginx-ingress-controller
+             - --default-backend-service={{ .Values.namespace }}/{{ .Values.backendName }}
+             - --default-ssl-certificate={{ .Values.namespace }}/{{ .Chart.Name }}-tls
+             - --configmap={{ .Values.namespace }}/{{ .Chart.Name }}-cm
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        ports:
+        - name: http
+          containerPort: 80
+          hostPort: 80
+        - name: https
+          containerPort: 443
+          hostPort: 443
+      nodeSelector:
+        {{ .Values.nodeSelector.key }}: {{ .Values.nodeSelector.value }}

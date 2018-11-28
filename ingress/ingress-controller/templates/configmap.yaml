@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-cm
+  namespace: {{ .Values.namespace }}
+data:
+  location-snippet: "error_page 401 /limited ;"
+  custom-http-errors: "401"
+  proxy-body-size: 100m

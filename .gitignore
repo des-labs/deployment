@@ -17,3 +17,5 @@ desncsa/frontpage/desncsa/config/
 desncsa/frontpage/desncsa-dev/config/
 desncsa/frontpage/deploy*.yaml
 
+ingress/ingress-controller/config/*
+ingress/deploy_*
