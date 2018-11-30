@@ -50,6 +50,9 @@ spec:
         - name: DES_SERVICES
           value: "/home/des/oracle/.desservices.ini"
         volumeMounts:
+        - name: tiles
+          mountPath: "/des_data/des_tiles"
+          readOnly: true
         - name: workdir
           mountPath: "/home/des/oracle"
         - name: easyweb
@@ -60,7 +63,13 @@ spec:
         - name: config-all
           mountPath: "/home/des/desaccess/config/desaccess.yaml"
           subPath: "desaccess.yaml"
+        - name: config-all
+          mountPath: "/home/des/desaccess/config/bulkthumbsconfig.yaml"
+          subPath: "bulkthumbsconfig.yaml"
       volumes:
+      - name: tiles
+        hostPath:
+          path: {{ .Values.tilespath }}
       - name: easyweb
         persistentVolumeClaim:
           claimName: {{ .Chart.Name }}

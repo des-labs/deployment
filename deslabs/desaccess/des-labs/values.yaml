@@ -4,6 +4,7 @@ namespace: 'deslabs'
 
 replicaFront: 1
 replicaWorkers: 1
+replicaBulkWorkers: 1
 replicaMonitor: 1
 
 ingressFront:
@@ -21,12 +22,17 @@ commands:
   workers:
     - "/bin/bash"
     - "-c"
-    - "celery worker  -A ea_tasks   -E -Ofair --loglevel=info"
+    - "celery worker  -A ea_tasks  -E -Ofair --loglevel=info"
+  bulkworkers:
+    - "/bin/bash"
+    - "-c"
+    - "celery worker  -A ea_tasks  -E -Ofair --loglevel=info -Q bulk-queue"
   monitor:
     - "/bin/bash"
     - "-c"
     - "flower -A ea_tasks  --url_prefix=flower"
 
+tilespath: "/home/matias/DES/dr1_tiles"
 
 # Only one should be enabled
 storage:

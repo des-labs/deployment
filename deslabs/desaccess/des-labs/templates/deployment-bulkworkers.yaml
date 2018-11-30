@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: "{{ .Chart.Name }}-front"
+  name: "{{ .Chart.Name }}-bulkworkers"
   namespace: {{ .Values.namespace }}
   labels:
     chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
@@ -9,14 +9,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: "{{ .Chart.Name }}-front"
+      app: "{{ .Chart.Name }}-bulkworkers"
   strategy:
     type: Recreate
-  replicas: {{ .Values.replicaFront }}
+  replicas: {{ .Values.replicaBulkWorkers }}
   template:
     metadata:
       labels:
-        app: "{{ .Chart.Name }}-front"
+        app: "{{ .Chart.Name }}-bulkworkers"
     spec:
       securityContext:
         runAsUser: {{ .Values.image.uid }}
@@ -34,11 +34,13 @@ spec:
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ .Chart.Name }}
-        #command: ["python", "/home/des/desaccess/deslabs.py"]
+        #command: ["/bin/bash", "-c", "celery worker  -A ea_tasks -f logs/$POD_ID/worker.log  -E -Ofair --loglevel=info"]
+        #command: ["/bin/bash", "-c", "celery worker  -A ea_tasks   -E -Ofair --loglevel=info"]
         command:
-          {{- range .Values.commands.front }}
+          {{- range .Values.commands.bulkworkers }}
           - {{ . | quote }}
           {{- end }}
+
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: POD_ID
@@ -47,9 +49,6 @@ spec:
               fieldPath: metadata.name
         - name: DES_SERVICES
           value: "/home/des/oracle/.desservices.ini"
-        ports:
-        - containerPort: {{ .Values.serviceFront.port }}
-          name: {{ .Chart.Name }}
         volumeMounts:
         - name: tiles
           mountPath: "/des_data/des_tiles"
