@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "{{ .Chart.Name }}"
+  namespace: {{ .Values.namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    #nginx.ingress.kubernetes.io/service-upstream: "true"
+    #nginx.ingress.kubernetes.io/ssl-redirect: {{ .Values.ingress.ssl }}
+    #kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+spec:
+  rules:
+  - http:
+     paths:
+     - path: /easycli
+       backend:
+         serviceName: "{{ .Chart.Name }}"
+         servicePort: {{ .Values.service.port }}

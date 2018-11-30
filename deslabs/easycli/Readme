@@ -1,0 +1,1 @@
+helm template easycli > deploy_easycli.yaml

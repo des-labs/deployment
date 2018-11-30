@@ -19,3 +19,5 @@ desncsa/frontpage/deploy*.yaml
 
 ingress/ingress-controller/config/*
 ingress/deploy_*
+
+deslabs/easycli/deploy*

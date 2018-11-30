@@ -1,0 +1,39 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Chart.Name }}"
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      securityContext:
+        runAsUser: {{ .Values.image.uid }}
+        fsGroup: {{ .Values.image.gid }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command:
+          {{- range .Values.commands }}
+          - {{ . | quote }}
+          {{- end }}
+
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+          requests:
+            memory: {{ .Values.image.mem }}
+            cpu: {{ .Values.image.cpu }}
+          limits:
+            memory: {{ .Values.image.limits.mem }}
+            cpu: {{ .Values.image.limits.cpu }}
+        ports:
+        - containerPort: {{ .Values.service.port }}

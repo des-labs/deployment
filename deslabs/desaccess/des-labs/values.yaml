@@ -2,8 +2,8 @@
 #
 namespace: 'deslabs'
 
-replicaFront: 2
-replicaWorkers: 2
+replicaFront: 1
+replicaWorkers: 1
 replicaMonitor: 1
 
 ingressFront:
@@ -34,7 +34,8 @@ storage:
     enabled: true
     type: local
     className: manual
-    path: "/des004/deslabs/easyweb/workdir"
+    #path: "/des004/deslabs/easyweb/workdir"
+    path: "/home/matias/kubedata/external/easyweb/workdir"
   nfs:
     enabled: false
     type: nfs
@@ -49,8 +50,8 @@ storage:
 image:
   uid: 1001
   gid: 1001
-  repository: mgckind/desaccess
-  tag: deslabs-dev
+  repository: matias #mgckind/desaccess
+  tag: desaccess #deslabs-dev
   pullPolicy: IfNotPresent
 
 serviceFront:

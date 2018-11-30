@@ -15,8 +15,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # BASICS
 RUN apt-get update
-RUN apt-get install -y git  curl nano wget dialog net-tools build-essential vim unzip libaio1 pkg-config gfortran zlibc zlib1g zlib1g-dev expect strace screen supervisor
-RUN apt-get install -y  bzip2 ca-certificates curl git imagemagick libhdf5-serial-dev hdf5-tools python3-dev libmysqlclient-dev mysql-client
+RUN apt-get install -y git  curl nano wget dialog net-tools build-essential vim unzip libaio1 pkg-config gfortran zlibc zlib1g zlib1g-dev expect strace screen supervisor  gcc libopenmpi-dev
+RUN apt-get install -y  bzip2 ca-certificates curl git imagemagick libhdf5-serial-dev hdf5-tools python3-dev libmysqlclient-dev mysql-client openmpi-bin openmpi-common binutils
 
 
 # REDIS 
@@ -73,7 +73,11 @@ RUN pip install matplotlib
 RUN pip install jinja2
 RUN pip install jira --ignore-installed
 RUN pip install astropy
-RUN pip install  kubernetes
+RUN pip install kubernetes
+RUN pip install pillow
+RUN pip install pandas
+RUN pip install mpi4py
+RUN pip install redis==2.10.6
 
 ENV C_FORCE_ROOT true
 
@@ -93,6 +97,7 @@ EXPOSE 5555
 USER des
 ENV PATH /opt/conda/bin:$PATH
 ENV HOME /home/des
+ADD default-mca-params.conf ${HOME}/.openmpi/mca-params.conf
 ENV C_FORCE_ROOT true
 ENV SHELL /bin/bash
 ENV TERM xterm

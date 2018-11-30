@@ -4,13 +4,16 @@ metadata:
   name: "{{ .Chart.Name }}-monitor"
   namespace: {{ .Values.namespace }}
   annotations:
-    ingress.kubernetes.io/ssl-redirect: {{ .Values.ingressMonitor.ssl }}
-    kubernetes.io/ingress.class: {{ .Values.ingressMonitor.class }}
+    #kubernetes.io/ingress.class: {{ .Values.ingressMonitor.class }}
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
      paths:
+     - path: /jobs
+       backend:
+         serviceName: "{{ .Chart.Name }}-monitor"
+         servicePort: {{ .Values.serviceMonitor.port }}
      - path: /flower
        backend:
          serviceName: "{{ .Chart.Name }}-monitor"

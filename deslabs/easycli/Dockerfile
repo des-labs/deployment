@@ -70,7 +70,8 @@ RUN conda install -y pip
 RUN pip install --upgrade pip
 RUN pip install cx_Oracle==5.3
 RUN pip install requests
-RUN pip install easyaccess==1.4.4 --no-deps --ignore-installed
+RUN pip install easyaccess==1.4.5 --no-deps --ignore-installed
+RUN pip install pandas
 
 RUN useradd --create-home --shell /bin/bash des --uid 1001
 WORKDIR /home/des

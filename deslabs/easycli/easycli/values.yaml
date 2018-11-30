@@ -1,0 +1,28 @@
+# DESLABS EASYCLI
+
+replicaCount: 1
+namespace: 'deslabs'
+
+ingress:
+  class: "deslabs"
+  ssl: "false"
+
+image:
+  uid: 1001
+  gid: 1001
+  repository: mgckind/easycli
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+  cpu: "1.0"
+  mem: "1000Mi"
+  limits:
+    cpu: "1.5"
+    mem: "1500Mi"
+
+commands:
+    - "bash"
+
+service:
+  #type: NodePort
+  type: ClusterIP
+  port: 7681
