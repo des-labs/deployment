@@ -25,7 +25,7 @@ storage:
 image:
   uid: 1001
   gid: 1001
-  repository: mgckind/lab-server
+  repository: "mgckind/lab-server"
   tag: "deslabs"
   pullPolicy: IfNotPresent
 

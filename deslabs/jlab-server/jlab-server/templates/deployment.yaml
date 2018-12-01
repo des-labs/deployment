@@ -25,7 +25,9 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         env:
         - name: MYSQL_DATABASE
-          value: des
+          value: "des"
+        - name: MYSQL_JLAB_TABLE
+          value: "Jlab"
         - name: MYSQL_HOST
           value: {{ .Values.mysql.serviceName }}
         - name: MYSQL_PORT
