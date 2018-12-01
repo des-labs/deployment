@@ -4,7 +4,7 @@ metadata:
   name: "{{ .Chart.Name }}-front"
   namespace: {{ .Values.namespace }}
   annotations:
-    ingress.kubernetes.io/ssl-redirect: {{ .Values.ingressFront.ssl }}
+    #nginx.ingress.kubernetes.io/ssl-redirect: {{ .Values.ingressFront.ssl }}
     kubernetes.io/ingress.class: {{ .Values.ingressFront.class }}
 spec:
   rules:
