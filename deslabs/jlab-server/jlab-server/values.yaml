@@ -25,8 +25,8 @@ storage:
 image:
   uid: 1001
   gid: 1001
-  repository: matias
-  tag: jlab-server
+  repository: mgckind/lab-server
+  tag: "deslabs"
   pullPolicy: IfNotPresent
 
 mysql:

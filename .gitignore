@@ -21,3 +21,8 @@ ingress/ingress-controller/config/*
 ingress/deploy_*
 
 deslabs/easycli/deploy*
+
+deslabs/jlab-server/jlab-server/config/*
+deslabs/jlab-server/deploy*
+
+
