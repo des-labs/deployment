@@ -31,6 +31,7 @@ spec:
              - --default-backend-service={{ .Values.namespace }}/{{ .Values.backendName }}
              - --default-ssl-certificate={{ .Values.namespace }}/{{ .Chart.Name }}-tls
              - --configmap={{ .Values.namespace }}/{{ .Chart.Name }}-cm
+             - --ingress-class={{ .Values.ingressClass }}
         env:
         - name: POD_NAME
           valueFrom:

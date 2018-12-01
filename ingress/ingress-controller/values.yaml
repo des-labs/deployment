@@ -14,6 +14,9 @@ rbac:
   resourceNames:
     - "ingress-controller-leader-nginx"
     - "ingress-controller-leader-internal"
+    - "ingress-controller-leader-deslabs"
+
+ingressClass: "deslabs"
 
 nodeSelector:
   key: nodetype
