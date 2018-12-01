@@ -56,8 +56,8 @@ storage:
 image:
   uid: 1001
   gid: 1001
-  repository: matias #mgckind/desaccess
-  tag: desaccess #deslabs-dev
+  repository: mgckind/desaccess
+  tag: deslabs-rc1
   pullPolicy: IfNotPresent
 
 serviceFront:

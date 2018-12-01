@@ -62,14 +62,8 @@ spec:
           mountPath: "/home/des/desaccess/config/celeryconfig.py"
           subPath: "celeryconfig.py"
         - name: config-all
-          mountPath: "/home/des/desaccess/config/mysqlconfig.yaml"
-          subPath: "mysqlconfig.yaml"
-        - name: config-all
           mountPath: "/home/des/desaccess/config/desaccess.yaml"
           subPath: "desaccess.yaml"
-        - name: config-all
-          mountPath: "/home/des/desaccess/config/bulkthumbsconfig.yaml"
-          subPath: "bulkthumbsconfig.yaml"
       volumes:
       - name: tiles
         hostPath:
