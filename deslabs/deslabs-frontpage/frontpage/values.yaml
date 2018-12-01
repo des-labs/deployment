@@ -1,6 +1,6 @@
 # DESLABS FRONTPAGE
 
-replicaCount: 2
+replicaCount: 1
 namespace: 'deslabs'
 
 ingress:
@@ -11,7 +11,7 @@ image:
   uid: 1001
   gid: 1001
   repository: mgckind/frontpage
-  tag: 2.3.13
+  tag: "2.4.0"
   pullPolicy: IfNotPresent
 
 service:
