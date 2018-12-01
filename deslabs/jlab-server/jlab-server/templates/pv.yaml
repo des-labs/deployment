@@ -1,0 +1,17 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    type: {{ .Values.storage.local.type }}
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  storageClassName: {{ .Values.storage.local.className }}
+  capacity:
+    storage: {{ .Values.storage.capacity }}
+  accessModes:
+    - {{ .Values.storage.access }}
+  hostPath:
+    path: {{ .Values.storage.local.path }}
+

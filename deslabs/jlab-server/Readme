@@ -1,0 +1,2 @@
+helm template jlab-server 
+helm template jlab-server > deploy_jlab_server.yaml

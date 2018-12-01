@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-cm
+  namespace: {{ .Values.namespace }}
+data:
+{{ (.Files.Glob "config/*").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: repositories
+  namespace: {{ .Values.namespace }}
+data:
+  repo_list: |
+    {{- range .Values.repositories }}
+    {{ . | quote }}
+    {{- end }}

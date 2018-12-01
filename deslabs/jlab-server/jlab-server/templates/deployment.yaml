@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
+    release: {{ .Chart.Version }}
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Chart.Name }}"
+  strategy:
+    type: Recreate
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      labels:
+        app: "{{ .Chart.Name }}"
+    spec:
+      serviceAccountName: "{{ .Chart.Name }}-sa"
+      automountServiceAccountToken: true
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        env:
+        - name: MYSQL_DATABASE
+          value: des
+        - name: MYSQL_HOST
+          value: {{ .Values.mysql.serviceName }}
+        - name: MYSQL_PORT
+          value: "{{ .Values.mysql.servicePort }}"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mysql.secretName }}
+              key: admin
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mysql.secretName }}
+              key: adminpass
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        volumeMounts:
+        - name: config
+          mountPath: "/des/conf"
+      volumes:
+      - name: config
+        configMap:
+          name: {{ .Chart.Name }}-cm

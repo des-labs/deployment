@@ -1,0 +1,44 @@
+# DESACCESS JUPYTER LAB SERVER
+#
+namespace: 'deslabs'
+replicas: 1
+
+
+# Only one should be enabled
+storage:
+  local:
+    enabled: true
+    type: local
+    className: manual
+    #path: "/des004/deslabs/easyweb/workdir"
+    path: "/home/matias/kubedata/external/jhub"
+  nfs:
+    enabled: false
+    type: nfs
+    className: standard
+    server: "10.101.140.143"
+    path: "/exports/easyweb/workdir"
+  capacity: 150Gi
+  access: "ReadWriteMany"
+
+
+image:
+  uid: 1001
+  gid: 1001
+  repository: matias
+  tag: jlab-server
+  pullPolicy: IfNotPresent
+
+mysql:
+  secretName: des-labs-mysql
+  serviceName: des-labs-mysql
+  servicePort:  3306
+
+repositories:
+  - "https://github.com/DarkEnergySurvey/data_access_examples.git"
+  - "https://github.com/mgckind/easyaccess.git"
+
+service:
+  #type: NodePort
+  type: ClusterIP
+  port: 8888
