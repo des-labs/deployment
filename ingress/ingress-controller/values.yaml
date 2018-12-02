@@ -19,5 +19,5 @@ rbac:
 ingressClass: "deslabs"
 
 nodeSelector:
-  key: nodetype
-  value: master
+  key: "kubernetes.io/hostname"
+  value: "desrelease.cosmology.illinois.edu"

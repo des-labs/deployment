@@ -1,7 +1,7 @@
 # DESACCESS JUPYTER LAB SERVER
 #
 namespace: 'deslabs'
-replicas: 1
+replicas: 2
 
 
 # Only one should be enabled
@@ -10,8 +10,8 @@ storage:
     enabled: true
     type: local
     className: manual
-    #path: "/des004/deslabs/easyweb/workdir"
-    path: "/home/matias/kubedata/external/jhub"
+    path: "/des004/deslabs/jhub"
+    #path: "/home/matias/kubedata/external/jhub"
   nfs:
     enabled: false
     type: nfs
@@ -35,8 +35,7 @@ mysql:
   servicePort:  3306
 
 repositories:
-  - "https://github.com/DarkEnergySurvey/data_access_examples.git"
-  - "https://github.com/mgckind/easyaccess.git"
+  - "https://github.com/mgckind/dr1_tutorial.git"
 
 service:
   #type: NodePort

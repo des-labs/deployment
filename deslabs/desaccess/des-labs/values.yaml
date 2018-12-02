@@ -32,7 +32,7 @@ commands:
     - "-c"
     - "flower -A ea_tasks  --url_prefix=flower"
 
-tilespath: "/home/matias/DES/dr1_tiles"
+tilespath: "/des004/despublic/dr1_tiles"
 
 # Only one should be enabled
 storage:
@@ -40,8 +40,8 @@ storage:
     enabled: true
     type: local
     className: manual
-    #path: "/des004/deslabs/easyweb/workdir"
-    path: "/home/matias/kubedata/external/easyweb/workdir"
+    path: "/des004/deslabs/easyweb/workdir"
+    #path: "/home/matias/kubedata/external/easyweb/workdir"
   nfs:
     enabled: false
     type: nfs
