@@ -8,7 +8,7 @@ RUN useradd --create-home --shell /bin/bash des --uid 1001
 WORKDIR /home/des
 USER des
 # clone repo branch
-ADD https://api.github.com/repos/mgckind/des_ncsa/git/refs/heads/master /home/des/version.json
-RUN git clone -b sn https://github.com/mgckind/des_ncsa.git
+ADD https://api.github.com/repos/mgckind/des_ncsa/git/refs/heads/rrl /home/des/version.json
+RUN git clone -b rrl-brown https://github.com/mgckind/des_ncsa.git
 WORKDIR /home/des/des_ncsa
 CMD [ "python", "main.py" ]
