@@ -12,7 +12,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("mdjohnson/deslabs-frontpage","-f deslabs/deslabs-frontpage/")
+        app = docker.build("mdjohnson/deslabs-frontpage","-f deslabs/deslabs-frontpage/Dockerfile .")
     }
 
     stage('Test image') {
