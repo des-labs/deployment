@@ -37,11 +37,9 @@ node {
 
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
-        steps {
-            sh "helm create frontpage"
-            sh "cd ${env.WORKSPACE}/deslabs/deslabs-frontpage"
-            sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
-        }
+        sh "helm create frontpage"
+        sh "cd ${env.WORKSPACE}/deslabs/deslabs-frontpage"
+        sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
     }
 
     stage('Deploy to kubernetes') {
@@ -50,10 +48,8 @@ node {
         }
 
     stage('Push to GitHub ') {
-        steps {
-            sh "git commit deploy_frontpage.yaml -m v${env.BUILD_VERSION}"
-            sh "git push -u origin jenkins_test" 
-        }
+        sh "git commit deploy_frontpage.yaml -m v${env.BUILD_VERSION}"
+        sh "git push -u origin jenkins_test" 
     }
 
     stage('Clean up unused docker builds') {
