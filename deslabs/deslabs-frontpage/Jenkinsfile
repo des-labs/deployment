@@ -42,18 +42,18 @@ node {
         sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
     }
 
-    stage('Deploy to kubernetes') {
-        /* Now, we'll deploy latest build on kubernetes */
-        sh "kubectl apply -f deploy_frontpage.yaml" 
-        }
-
-    stage('Push to GitHub ') {
-        sh "git commit deploy_frontpage.yaml -m v${env.BUILD_VERSION}"
-        sh "git push -u origin jenkins_test" 
+    stage('Clone bitbucket repository') {
+        /* Let's make sure we have the repository cloned to our workspace */
+        git branch: 'master',
+            credentialsId: 'mjohns44-bitbucket-credentials',
+            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
     }
-
-    stage('Clean up unused docker builds') {
-        sh "docker system prune -a -f"
+    
+    stage('ls dir'){
+        sh "cd ${env.WORKSPACE}/deslabs/deslabs-frontpage"
+        sh "mv deploy_frontpage.yaml ${env.WORKSPACE}/frontpage"
+        sh "cd ${env.WORKSPACE}/frontpage"
+        sh "ls  *"
     }
 }
 
