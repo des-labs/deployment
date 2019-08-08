@@ -57,6 +57,8 @@ node {
             withCredentials([[$class: 'UsernamePasswordMultiBinding',
                               credentialsId: 'mjohns44-bitbucket-credentials',
                               usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
+                sh "git config --global mjohns44@illinois.edu"
+                sh "git config --global mjohns44"
                 sh "git commit -am v${env.BUILD_VERSION}"
             }
 
