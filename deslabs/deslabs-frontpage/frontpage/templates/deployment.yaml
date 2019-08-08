@@ -1,23 +1,23 @@
-apiVersion: apps/v1beta2
+apiversion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}
+  name: {{ .Values.name }}
   namespace: {{ .Values.namespace }}
   labels:
-    chart: {{ printf "%s-%s" .Chart.Name .Chart.Version }}
-    release: {{ .Chart.Version }}
+    chart: {{ printf "%s-%s" .Values.name .Values.version }}
+    release: {{ .Values.version }}
 spec:
   selector:
     matchLabels:
-      app: "{{ .Chart.Name }}"
+      app: "{{ .Values.name }}"
   replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: {{ .Values.name }}
     spec:
       containers:
-      - name: {{ .Chart.Name }}
+      - name: {{ .Values.name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
