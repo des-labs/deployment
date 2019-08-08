@@ -67,7 +67,6 @@ node {
      stage('Deploy to kubernetes') {
         /* Now, we'll deploy latest build on kubernetes */
         dir('bitbucket/frontpage'){
-            sh "kubectl api-versions"
             sh "kubectl apply -f deploy_frontpage.yaml" 
         }
      }
