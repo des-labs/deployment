@@ -55,7 +55,7 @@ node {
         /* We'll create deployment yaml from Helm */
         dir('bitbucket/frontpage'){
             sh "pwd"
-            sh "git commit -am "v${env.BUILD_VERSION}"
+            sh "git commit -am v${env.BUILD_VERSION}"
     }
     }
 
