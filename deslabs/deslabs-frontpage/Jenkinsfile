@@ -13,7 +13,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("mdjohnson/deslabs-frontpage","-f deslabs/deslabs-frontpage/Dockerfile .")
+        app = docker.build("mdjohnson/deslabs-frontpage","-f github/deslabs/deslabs-frontpage/Dockerfile .")
     }
 
     stage('Test image') {
@@ -46,7 +46,7 @@ node {
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
         sh "helm create frontpage"
-        sh "cd ${env.WORKSPACE}/deslabs/deslabs-frontpage"
+        sh "cd ${env.WORKSPACE}/github/deslabs/deslabs-frontpage"
         sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
         sh "mv deploy_frontpage.yaml ${env.WORKSPACE}/bitbucket/frontpage"
 
