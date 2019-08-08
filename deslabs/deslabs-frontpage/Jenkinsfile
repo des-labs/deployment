@@ -59,7 +59,6 @@ node {
             sh "git commit -am v${env.BUILD_VERSION}"
             sh "git push -u origin jenkins_test"
             }
-      }
     }
 
 }
