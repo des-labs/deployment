@@ -35,13 +35,6 @@ node {
         }
     }
 
-    stage('Clone bitbucket repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
-      dir('bitbucket'){  git branch: 'master',
-            credentialsId: 'mjohns44-bitbucket-credentials',
-            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
-        }
-    }
 
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
@@ -51,12 +44,15 @@ node {
     }
     }
 
-   stage('Commit deploy yaml') {
-        /* We'll create deployment yaml from Helm */
-        dir('bitbucket/frontpage'){
-            sh "pwd"
+    stage('Commit deploy_frontpage.yaml to bitbucket repository') {
+        /* Let's make sure we have the repository cloned to our workspace */
+      dir('bitbucket'){  git branch: 'master',
+            credentialsId: 'mjohns44-bitbucket-credentials',
+            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
+        
             sh "git commit -am v${env.BUILD_VERSION}"
-    }
+
+        }
     }
 
 }
