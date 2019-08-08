@@ -54,6 +54,7 @@ node {
             url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
 
             sh "mv ${env.WORKSPACE}/deploy_frontpage.yaml frontpage"
+            sh "git remote add origin https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"
             sh "git commit -am v${env.BUILD_VERSION}"
             sh "git push -u origin master"
       }
