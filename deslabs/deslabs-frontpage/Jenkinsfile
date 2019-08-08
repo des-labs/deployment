@@ -35,23 +35,30 @@ node {
         }
     }
 
+    stage('Clone bitbucket repository') {
+        /* Let's make sure we have the repository cloned to our workspace */
+      dir('bitbucket'){  git branch: 'master',
+            credentialsId: 'mjohns44-bitbucket-credentials',
+            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
+        }
+    }
 
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
         dir('github/deslabs/deslabs-frontpage'){
             sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
-            sh "mv deploy_frontpage.yaml ${env.WORKSPACE}/"
+            sh "mv deploy_frontpage.yaml ${env.WORKSPACE}/bitbucket/frontpage"
         }
     }
 
     stage('Commit deploy_frontpage.yaml to bitbucket repository') {
         /* Let's make sure we have the repository cloned to our workspace */
-      dir('bitbucket'){  git branch: 'master',
-            credentialsId: 'mjohns44-bitbucket-credentials',
-            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
-        
-            sh "mv ${env.WORKSPACE}/deploy_frontpage.yaml ."
-            sh "git commit -am v${env.BUILD_VERSION}"
+      dir('bitbucket/frontpage'){  
+            withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                              credentialsId: 'mjohns44-bitbucket-credentials',
+                              usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
+                sh "git commit -am v${env.BUILD_VERSION}"
+            }
 
         }
     }
