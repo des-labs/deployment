@@ -44,15 +44,15 @@ node {
 
     stage('Clone bitbucket repository') {
         /* Let's make sure we have the repository cloned to our workspace */
-        git branch: 'master',
+      dir('bitbucket'){  git branch: 'master',
             credentialsId: 'mjohns44-bitbucket-credentials',
             url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
+        }
     }
     
     stage('ls dir'){
-        sh "cd ${env.WORKSPACE}/deslabs/deslabs-frontpage"
-        sh "mv deploy_frontpage.yaml ${env.WORKSPACE}/frontpage"
-        sh "cd ${env.WORKSPACE}/frontpage"
+        sh "mv ${env.WORKSPACE}/deslabs/deslabs-frontpage/deploy_frontpage.yaml ${env.WORKSPACE}/bitbucket/frontpage"
+        sh "cd ${env.WORKSPACE}/bitbucket/frontpage"
         sh "ls  *"
     }
 }
