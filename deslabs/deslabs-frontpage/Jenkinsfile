@@ -54,7 +54,7 @@ node {
 
     stage('ls dir'){
         sh "cd ${env.WORKSPACE}/bitbucket/frontpage"
-        sh "git status"
+        sh "ls"
     }
 }
 
