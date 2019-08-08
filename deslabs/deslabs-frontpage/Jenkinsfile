@@ -34,14 +34,6 @@ node {
         }
     }
 
-
-   stage('Create Helm templates') {
-        /* We'll create deployment yaml from Helm */
-        sh "helm create frontpage"
-        sh "cd ${env.WORKSPACE}/deslabs/deslabs-frontpage"
-        sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
-    }
-
     stage('Clone bitbucket repository') {
         /* Let's make sure we have the repository cloned to our workspace */
       dir('bitbucket'){  git branch: 'master',
@@ -49,9 +41,17 @@ node {
             url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
         }
     }
-    
-    stage('ls dir'){
+
+   stage('Create Helm templates') {
+        /* We'll create deployment yaml from Helm */
+        sh "helm create frontpage"
+        sh "cd ${env.WORKSPACE}/deslabs/deslabs-frontpage"
+        sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
         sh "mv ${env.WORKSPACE}/deslabs/deslabs-frontpage/deploy_frontpage.yaml ${env.WORKSPACE}/bitbucket/frontpage"
+
+    }
+
+    stage('ls dir'){
         sh "cd ${env.WORKSPACE}/bitbucket/frontpage"
         sh "ls  *"
     }
