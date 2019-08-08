@@ -54,7 +54,9 @@ node {
             url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
 
             sh "mv ${env.WORKSPACE}/deploy_frontpage.yaml frontpage"
-            sh "git remote add bitbucket https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"
+            try {
+                sh "git remote add bitbucket https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"}
+            
             sh "git config --global user.email mjohns44@illinois.edu"
             sh "git config --global user.name mjohns44"
             sh "git commit -am v${env.BUILD_VERSION}"
