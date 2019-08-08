@@ -50,6 +50,7 @@ node {
             credentialsId: 'mjohns44-bitbucket-credentials',
             url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
         
+            sh "mv ${env.WORKSPACE}/github/deslabs/deslabs-frontpage/deploy_frontpage.yaml ."
             sh "git commit -am v${env.BUILD_VERSION}"
 
         }
