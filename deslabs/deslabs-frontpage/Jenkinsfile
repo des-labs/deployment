@@ -63,8 +63,7 @@ node {
             withCredentials([usernamePassword(credentialsId: 'mjohns44-bitbucket-credentials',
                             passwordVariable: 'GIT_PASSWORD',
                             usernameVariable: 'GIT_USERNAME')]){
-                sh "git tag -a v${env.BUILD_VERSION} -m v${env.BUILD_VERSION}"
-                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git --tags"
+                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"
             }
       }
     }
