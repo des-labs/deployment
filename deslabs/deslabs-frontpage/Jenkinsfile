@@ -57,7 +57,7 @@ node {
             sh "git config user.mail mjohns44@illinois.edu"
             sh "git config user.name mjohns44"
             sh "git commit -am v${env.BUILD_VERSION}"
-            sh "git push -u origin jenkins_test"
+            sh "git push -u origin master"
             }
     }
 
