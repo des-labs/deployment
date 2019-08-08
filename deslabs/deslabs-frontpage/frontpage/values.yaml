@@ -12,7 +12,7 @@ ingress:
 image:
   uid: 1001
   gid: 1001
-  repository: mgckind/frontpage
+  repository: mdjohnson/deslabs-frontpage
   tag: "2.4.0"
   pullPolicy: IfNotPresent
 
