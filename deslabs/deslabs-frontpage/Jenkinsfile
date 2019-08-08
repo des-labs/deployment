@@ -54,11 +54,16 @@ node {
     stage('Commit deploy_frontpage.yaml to bitbucket repository') {
         /* Let's make sure we have the repository cloned to our workspace */
       dir('bitbucket/frontpage'){  
+        withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                          credentialsId: 'mjohns44-bitbucket-credentials',
+                          usernameVariable: 'USERNAME',
+                          passwordVariable: 'PASSWORD']]){
             sh "git config user.mail mjohns44@illinois.edu"
             sh "git config user.name mjohns44"
             sh "git commit -am v${env.BUILD_VERSION}"
-            sh "git push -u origin master"
+            sh "git push -u origin "
             }
+      }
     }
 
 }
