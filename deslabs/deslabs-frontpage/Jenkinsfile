@@ -45,7 +45,7 @@ node {
 
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
-        dir('${env.WORKSPACE}/github/deslabs/deslabs-frontpage'){
+        dir('github/deslabs/deslabs-frontpage'){
             sh "pwd"
             sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
             sh "mv deploy_frontpage.yaml ${env.WORKSPACE}/bitbucket/frontpage"
