@@ -35,10 +35,6 @@ node {
         }
     }
 
-    stage('Clone bitbucket repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
-    }
-
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
         dir('github/deslabs/deslabs-frontpage'){
@@ -68,6 +64,18 @@ node {
       }
     }
 
+     stage('Deploy to kubernetes') {
+        /* Now, we'll deploy latest build on kubernetes */
+        dir('bitbucket/frontpage'){
+            sh "kubectl apply -f deploy_frontpage.yaml" 
+        }
+     }
+
+    stage('Clean up unused docker builds') {
+        sh "docker system prune -a -f"
+    }
+}
+   
 }
 
 def divide_build_number(){
