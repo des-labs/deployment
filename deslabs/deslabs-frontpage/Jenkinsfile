@@ -47,7 +47,7 @@ node {
         sh "helm create frontpage"
         sh "cd ${env.WORKSPACE}/deslabs/deslabs-frontpage"
         sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
-        sh "mv ${env.WORKSPACE}/deslabs/deslabs-frontpage/deploy_frontpage.yaml ${env.WORKSPACE}/bitbucket/frontpage"
+        sh "mv deploy_frontpage.yaml ${env.WORKSPACE}/bitbucket/frontpage"
 
     }
 
