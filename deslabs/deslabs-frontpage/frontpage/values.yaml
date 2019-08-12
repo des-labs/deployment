@@ -1,12 +1,12 @@
 # DESLABS FRONTPAGE
-name: frontpage-dev
+name: frontpage
 version: "2.4.0"
 
 replicaCount: 2
-namespace: 'deslabs'
+namespace: 'deslabs-devel'
 
 ingress:
-  class: "deslabs-dev"
+  class: "deslabs-devel"
   ssl: "false"
 
 image:
@@ -19,4 +19,4 @@ image:
 service:
   #type: NodePort
   type: ClusterIP
-  port: 31000
+  port: 80
