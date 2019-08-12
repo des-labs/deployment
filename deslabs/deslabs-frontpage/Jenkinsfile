@@ -15,7 +15,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("mdjohnson/deslabs-frontpage","-f github/deslabs/deslabs-frontpage/Dockerfile .")
+        app = docker.build("mdjohnson/deslabs-frontpage","--network host -f github/deslabs/deslabs-frontpage/Dockerfile .")
     }
 
     stage('Test image') {
