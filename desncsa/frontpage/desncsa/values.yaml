@@ -1,19 +1,21 @@
 # DES-NCSA Website
 # des.ncsa.illinois.edu
 #
-namespace: 'default'
+name: desncsa-main
+version: "0.0.0"
+namespace: 'deslabs-devel'
 
 replicaCount: 3
 
 ingress:
-  class: "nginx"
+  class: "internal"
   ssl: "true"
 
 image:
   uid: 1001
   gid: 1001
-  repository: mgckind/des-ncsa
-  tag: release-y1
+  repository: mdjohnson/desncsa-frontpage
+  tag: "0.0.0"
   pullPolicy: IfNotPresent
 
 service:
