@@ -1,5 +1,7 @@
 node {
     def app
+    def count
+    def post_count
     env.BUILD_VERSION = divide_build_number()
 
     stage('Clone repository') {
@@ -54,7 +56,7 @@ node {
                 sh "git remote add bitbucket https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"}
             catch (err){
             echo err.getMessage()
-            echo "Error detected, but we will continue."}
+            echo "Remote site already exists. Will continue."}
             sh "git commit -am v${env.BUILD_VERSION}"
             withCredentials([usernamePassword(credentialsId: 'mjohns44-bitbucket-credentials',
                             passwordVariable: 'GIT_PASSWORD',
@@ -67,8 +69,18 @@ node {
      stage('Deploy to kubernetes') {
         /* Now, we'll deploy latest build on kubernetes */
         dir('bitbucket/frontpage'){
+            count= sh (script: "kubect get pods -n deslabs --selector=app=frontpage -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
+                      returnStdout: true).trim()
             sh "kubectl apply -f deploy_frontpage.yaml" 
-        }
+            sh "sleep 30"
+            post_count = sh (script: "kubect get pods -n deslabs --selector=app=frontpage -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
+                      returnStdout: true).trim() 
+            if (count == post_count) {
+                echo "Deployment successful. Continuing..."
+            } else {
+                error("Deployment failed. Exiting...")
+            }
+     }
      }
 
     stage('Clean up unused docker builds') {
