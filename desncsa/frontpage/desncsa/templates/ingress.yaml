@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: "{{ .Chart.Name }}"
+  name: "{{ .Values.name }}"
   namespace: {{ .Values.namespace }}
   annotations:
     #ingress.kubernetes.io/ssl-redirect: {{ .Values.ingress.ssl }}
@@ -12,6 +12,6 @@ spec:
      paths:
      - path: /
        backend:
-         serviceName: "{{ .Chart.Name }}"
+         serviceName: "{{ .Values.name }}"
          servicePort: {{ .Values.service.port }}
 
