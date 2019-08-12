@@ -1,5 +1,7 @@
 node {
     def app
+    def count
+    def post_count
     env.BUILD_VERSION = divide_build_number()
 
     stage('Clone repository') {
@@ -30,7 +32,7 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry('https://registry.hub.docker.com', 'mdjohnson-docker-hub-credentials') {
-            app.push("v${env.BUILD_VERSION}")
+            app.push("dev${env.BUILD_VERSION}")
             app.push("latest")
         }
     }
@@ -38,7 +40,7 @@ node {
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
         dir('github/deslabs/deslabs-frontpage'){
-            sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION},version=v${env.BUILD_VERSION}> deploy_frontpage.yaml" 
+            sh "helm template frontpage --set image.tag=dev${env.BUILD_VERSION},version=dev${env.BUILD_VERSION}> deploy_frontpage.yaml" 
             sh "mv deploy_frontpage.yaml ${env.WORKSPACE}/"
         }
     }
@@ -54,8 +56,8 @@ node {
                 sh "git remote add bitbucket https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"}
             catch (err){
             echo err.getMessage()
-            echo "Error detected, but we will continue."}
-            sh "git commit -am v${env.BUILD_VERSION}"
+            echo "Remote site already exists. Will continue."}
+            sh "git commit -am dev${env.BUILD_VERSION}"
             withCredentials([usernamePassword(credentialsId: 'mjohns44-bitbucket-credentials',
                             passwordVariable: 'GIT_PASSWORD',
                             usernameVariable: 'GIT_USERNAME')]){
@@ -67,8 +69,17 @@ node {
      stage('Deploy to kubernetes') {
         /* Now, we'll deploy latest build on kubernetes */
         dir('bitbucket/frontpage'){
+            count= sh (script: "kubect get pods -n deslabs --selector=app=frontpage-dev -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
+                      returnStdout: true).trim()
             sh "kubectl apply -f deploy_frontpage.yaml" 
-        }
+            sh "sleep 30"
+            post_count = sh (script: "kubect get pods -n deslabs --selector=app=frontpage-dev -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
+                      returnStdout: true).trim() 
+            if (count == post_count) {
+                echo "Deployment successful. Continuing..."
+            } else {
+                error("Deployment failed. Exiting...")
+            }
      }
 
     stage('Clean up unused docker builds') {
