@@ -68,10 +68,10 @@ node {
 
      stage('Deploy to kubernetes') {
         /* Now, we'll deploy latest build on kubernetes */
-        dir('bitbucket/desncsa-frontpage'){
+        dir('bitbucket'){
             count= sh (script: "kubect get pods -n deslabs-devel --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim()
-            sh "kubectl apply -f deploy_desncsa.yaml" 
+            sh "kubectl apply -f desncsa-frontpage/deploy_desncsa.yaml" 
             sh "sleep 90"
             post_count = sh (script: "kubect get pods -n deslabs-devel --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim() 
