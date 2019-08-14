@@ -4,7 +4,7 @@ metadata:
   name: "{{ .Values.name }}"
   namespace: {{ .Values.namespace }}
   labels:
-    chart: {{ printf "%s-%s" .Values.name .Chart.version }}
+    chart: {{ printf "%s-%s" .Values.name .Values.version }}
     release: {{ .Values.version }}
 spec:
   type: {{ .Values.service.type }}
