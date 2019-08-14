@@ -40,7 +40,7 @@ node {
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
         dir('github/desncsa/frontpage'){
-            sh "helm template frontpage --set image.tag=dev${env.BUILD_VERSION},version=dev${env.BUILD_VERSION}> deploy_desncsa.yaml" 
+            sh "helm template desncsa --set image.tag=dev${env.BUILD_VERSION},version=dev${env.BUILD_VERSION}> deploy_desncsa.yaml" 
             sh "mv deploy_desncsa.yaml ${env.WORKSPACE}/"
         }
     }
