@@ -42,8 +42,8 @@ node {
         dir('bitbucket'){  git branch: 'master',
             credentialsId: 'mjohns44-bitbucket-credentials',
             url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
-        
-            sh "mv config-data/desncsa-frontpage/config/* ${env.WORKSPACE}"
+            sh "mkdir -p ${env.WORKSPACE}/configs" 
+            sh "mv config-data/desncsa-frontpage/config/* ${env.WORKSPACE}/configs"
         }
     }
 
