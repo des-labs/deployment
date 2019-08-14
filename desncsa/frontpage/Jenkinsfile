@@ -39,11 +39,8 @@ node {
 
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
-        dir('github/desncsa/frontpage'){
-            sh "helm template desncsa --set image.tag=dev${env.BUILD_VERSION},version=dev${env.BUILD_VERSION}> deploy_desncsa.yaml" 
-            sh "mv deploy_desncsa.yaml ${env.WORKSPACE}/"
+        sh "helm template github/desncsa/frontpage/desncsa --set image.tag=dev${env.BUILD_VERSION},version=dev${env.BUILD_VERSION}> deploy_desncsa.yaml" 
         }
-    }
 
     stage('Commit deploy_desncsa.yaml to bitbucket repository') {
         /* Let's make sure we have the repository cloned to our workspace */
@@ -68,10 +65,10 @@ node {
 
      stage('Deploy to kubernetes') {
         /* Now, we'll deploy latest build on kubernetes */
-        dir('bitbucket'){
+        dir('bitbucket/desncsa-frontpage'){
             count= sh (script: "kubect get pods -n deslabs-devel --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim()
-            sh "kubectl apply -f desncsa-frontpage/deploy_desncsa.yaml" 
+            sh "kubectl apply -f deploy_desncsa.yaml" 
             sh "sleep 90"
             post_count = sh (script: "kubect get pods -n deslabs-devel --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim() 
