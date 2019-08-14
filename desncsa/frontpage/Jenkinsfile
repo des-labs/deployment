@@ -75,7 +75,7 @@ node {
             sh "sleep 90"
             post_count = sh (script: "kubect get pods -n deslabs-devel --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim() 
-            if (count >= post_count) {
+            if (post_count >= count) {
                 echo "Deployment successful. Continuing..."
             } else {
                 error("Deployment failed. Exiting...")
