@@ -40,7 +40,7 @@ node {
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
         dir('github/desncsa/frontpage'){
-            sh "helm template frontpage --set image.tag=v${env.BUILD_VERSION},version=v${env.BUILD_VERSION}> deploy_desncsa.yaml" 
+            sh "helm template desncsa --set image.tag=v${env.BUILD_VERSION},version=v${env.BUILD_VERSION}> deploy_desncsa.yaml" 
             sh "mv deploy_desncsa.yaml ${env.WORKSPACE}/"
         }
     }
@@ -49,11 +49,11 @@ node {
         /* Let's make sure we have the repository cloned to our workspace */
         dir('bitbucket'){  git branch: 'master',
             credentialsId: 'mjohns44-bitbucket-credentials',
-            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/desncsa-deploy.git'
+            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
 
             sh "mv ${env.WORKSPACE}/deploy_desncsa.yaml desncsa-frontpage"
             try {
-                sh "git remote add bitbucket https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/desncsa-deploy.git"}
+                sh "git remote add bitbucket https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"}
             catch (err){
             echo err.getMessage()
             echo "Remote site already exists. Will continue."}
@@ -72,7 +72,7 @@ node {
             count= sh (script: "kubect get pods --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim()
             sh "kubectl apply -f deploy_desncsa.yaml" 
-            sh "sleep 30"
+            sh "sleep 90"
             post_count = sh (script: "kubect get pods --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim() 
             if (count == post_count) {
