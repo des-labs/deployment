@@ -49,7 +49,7 @@ node {
 
    stage('Create Helm templates') {
         /* We'll create deployment yaml from Helm */
-        sh "ls-lrth configs/desaccess.yaml"
+        sh "ls -lrth configs/desaccess.yaml"
         sh "helm template github/desncsa/frontpage/desncsa --set image.tag=dev${env.BUILD_VERSION},version=dev${env.BUILD_VERSION}> deploy_desncsa.yaml" 
         }
 
