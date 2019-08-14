@@ -72,7 +72,7 @@ node {
             count= sh (script: "kubect get pods -n deslabs-devel --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim()
             sh "kubectl apply -f deploy_desncsa.yaml" 
-            sh "sleep 30"
+            sh "sleep 90"
             post_count = sh (script: "kubect get pods -n deslabs-devel --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim() 
             if (count == post_count) {
