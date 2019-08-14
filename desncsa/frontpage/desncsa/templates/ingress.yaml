@@ -6,6 +6,9 @@ metadata:
   annotations:
     #ingress.kubernetes.io/ssl-redirect: {{ .Values.ingress.ssl }}
     kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+    ingress.kubernetes.io/auth-type: basic
+    ingress.kubernetes.io/auth-realm: "Auth required"
+    ingress.kubernetes.io/auth-secret: htpasswd
 spec:
   rules:
   - http:
