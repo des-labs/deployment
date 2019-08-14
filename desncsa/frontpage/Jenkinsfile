@@ -49,7 +49,7 @@ node {
         /* Let's make sure we have the repository cloned to our workspace */
         dir('bitbucket'){  git branch: 'master',
             credentialsId: 'mjohns44-bitbucket-credentials',
-            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/desncsa-deploy.git'
+            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
 
             sh "mv ${env.WORKSPACE}/deploy_desncsa.yaml desncsa-frontpage"
             try {
