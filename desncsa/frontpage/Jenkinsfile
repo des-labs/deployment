@@ -53,7 +53,7 @@ node {
 
             sh "mv ${env.WORKSPACE}/deploy_desncsa.yaml desncsa-frontpage"
             try {
-                sh "git remote add bitbucket https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/desncsa-deploy.git"}
+                sh "git remote add bitbucket https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"}
             catch (err){
             echo err.getMessage()
             echo "Remote site already exists. Will continue."}
@@ -61,7 +61,7 @@ node {
             withCredentials([usernamePassword(credentialsId: 'mjohns44-bitbucket-credentials',
                             passwordVariable: 'GIT_PASSWORD',
                             usernameVariable: 'GIT_USERNAME')]){
-                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@opensource.ncsa.illinois.edu/bitbucket/scm/desdm/desncsa-deploy.git"
+                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"
             }
       }
     }
