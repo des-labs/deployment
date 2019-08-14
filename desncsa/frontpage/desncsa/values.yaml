@@ -5,7 +5,7 @@ name: desncsa-main
 version: "0.0.0"
 namespace: 'deslabs-devel'
 
-replicaCount: 3
+replicaCount: 1
 
 ingress:
   class: "internal"
