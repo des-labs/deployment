@@ -44,15 +44,18 @@ node {
             url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
             sh "mkdir -p ${env.WORKSPACE}/configs" 
             sh "mv config-data/desncsa-frontpage/config/* ${env.WORKSPACE}/configs"
-            sh "mv ${env.WORKSPACE}/configs ${env.WORKSPACE}/github/desncsa/frontpage/desncsa/templates"
+            sh "mv ${env.WORKSPACE}/configs ${env.WORKSPACE}/github/desncsa/frontpage/desncsa/"
         }
     }
 
    stage('Create Helm templates') {
-        /* We'll create deployment yaml from Helm */
-        sh "helm template github/desncsa/frontpage/desncsa --set image.tag=dev${env.BUILD_VERSION},version=dev${env.BUILD_VERSION}> deploy_desncsa.yaml" 
-        sh "rm -rf ${env.WORKSPACE}/github/desncsa/frontpage/desncsa/templates/configs"
+        dir('github/desncsa/frontpage'){
+            /* We'll create deployment yaml from Helm */
+            sh "helm template desncsa --set image.tag=dev${env.BUILD_VERSION},version=dev${env.BUILD_VERSION}> deploy_desncsa.yaml" 
+            sh "rm -rf desncsa/configs"
+            sh "mv deploy_desncsa.yaml ${env.WORKSPACE}"
         }
+    }
 
     stage('Commit deploy_desncsa.yaml to bitbucket repository') {
         /* Let's make sure we have the repository cloned to our workspace */
