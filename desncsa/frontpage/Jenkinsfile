@@ -37,11 +37,23 @@ node {
         }
     }
 
+   stage('Clone configs repo') {
+        /* Let's make sure we have the repository cloned to our workspace */
+        dir('bitbucket'){  git branch: 'master',
+            credentialsId: 'mjohns44-bitbucket-credentials',
+            url: 'https://opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git'
+            sh "mkdir -p ${env.WORKSPACE}/configs" 
+            sh "mv config-data/desncsa-frontpage/config/* ${env.WORKSPACE}/configs"
+            sh "mv ${env.WORKSPACE}/configs ${env.WORKSPACE}/github/desncsa/frontpage/desncsa/"
+        }
+    }
+
    stage('Create Helm templates') {
-        /* We'll create deployment yaml from Helm */
         dir('github/desncsa/frontpage'){
+            /* We'll create deployment yaml from Helm */
             sh "helm template desncsa --set image.tag=v${env.BUILD_VERSION},version=v${env.BUILD_VERSION}> deploy_desncsa.yaml" 
-            sh "mv deploy_desncsa.yaml ${env.WORKSPACE}/"
+            sh "rm -rf desncsa/configs"
+            sh "mv deploy_desncsa.yaml ${env.WORKSPACE}"
         }
     }
 
@@ -61,7 +73,7 @@ node {
             withCredentials([usernamePassword(credentialsId: 'mjohns44-bitbucket-credentials',
                             passwordVariable: 'GIT_PASSWORD',
                             usernameVariable: 'GIT_USERNAME')]){
-                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@opensource.ncsa.illinois.edu/bitbucket/scm/desdm/desncsa-deploy.git"
+                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@opensource.ncsa.illinois.edu/bitbucket/scm/desdm/deslabs-deploy.git"
             }
       }
     }
@@ -69,13 +81,13 @@ node {
      stage('Deploy to kubernetes') {
         /* Now, we'll deploy latest build on kubernetes */
         dir('bitbucket/desncsa-frontpage'){
-            count= sh (script: "kubect get pods --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
+            count= sh (script: "kubectl get pods -n default --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim()
             sh "kubectl apply -f deploy_desncsa.yaml" 
             sh "sleep 90"
-            post_count = sh (script: "kubect get pods --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
+            post_count = sh (script: "kubectl get pods -n default --selector=app=desncsa-main -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
                       returnStdout: true).trim() 
-            if (count == post_count) {
+            if (post_count >= count) {
                 echo "Deployment successful. Continuing..."
             } else {
                 error("Deployment failed. Exiting...")
