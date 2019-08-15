@@ -2,7 +2,7 @@
 # des.ncsa.illinois.edu
 #
 name: desncsa-main 
-namespace: 'default'
+namespace: 'despublic'
 version: "2.4.0"
 
 replicaCount: 3
