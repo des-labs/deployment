@@ -69,11 +69,11 @@ node {
      stage('Deploy to kubernetes') {
         /* Now, we'll deploy latest build on kubernetes */
         dir('bitbucket/frontpage'){
-            count= sh (script: "kubect get pods -n deslabs --selector=app=frontpage -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
+            count= sh (script: "kubectl get deployments -n deslabs desdm-dash -o json | jq .status.replicas",
                       returnStdout: true).trim()
             sh "kubectl apply -f deploy_frontpage.yaml" 
             sh "sleep 30"
-            post_count = sh (script: "kubect get pods -n deslabs --selector=app=frontpage -o custom-columns=:metadata.name,:.status.phase |grep . |grep Running |wc -l",
+            post_count = sh (script: "kubectl get deployments -n deslabs desdm-dash -o json | jq .status.updatedReplicas",
                       returnStdout: true).trim() 
             if (count == post_count) {
                 echo "Deployment successful. Continuing..."
