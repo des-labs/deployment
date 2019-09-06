@@ -78,7 +78,12 @@ node {
             if (count == post_count) {
                 echo "Deployment successful. Continuing..."
             } else {
-                error("Deployment failed. Exiting...")
+                post_count_2 = sh (script: "kubectl get deployments -n deslabs frontpage -o json | jq .status.updatedReplicas",
+                      returnStdout: true).trim()
+                if (post_count_2 >= count){
+                    echo "Deployment successful. Continuing..."}
+                else{
+                    error("Deployment failed. Exiting...")}
             }
      }
      }
