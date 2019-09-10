@@ -70,7 +70,7 @@ node {
      stage('Deploy to kubernetes') {
         /* Now, we'll deploy latest build on kubernetes */
         dir('bitbucket/desncsa-frontpage'){
-            count= sh (script: ""kubectl get deployments -n deslabs-devel desncsa-main -o json | jq .status.updatedReplicas",
+            count= sh (script: "kubectl get deployments -n deslabs-devel desncsa-main -o json | jq .status.updatedReplicas",
                       returnStdout: true).trim()
             sh "kubectl apply -f deploy_desncsa.yaml" 
             sh "sleep 90"
