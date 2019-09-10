@@ -37,16 +37,6 @@ node {
         }
     }
 
-   stage('Grab secrets from vault'){
-        withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
-            // values will be masked
-            sh 'vault login -method=github token=$TOKEN'
-            sh "mkdir -p ${env.WORKSPACE}/configs"
-            sh "vault kv get -field desaccess.yaml des/desaccess.yaml | base64 -d > ${env.WORKSPACE}/configs/desaccess.yaml"
-            sh "mv ${env.WORKSPACE}/configs ${env.WORKSPACE}/github/desncsa/frontpage/desncsa/"
-        }
-    }
-
    stage('Create Helm templates') {
         dir('github/desncsa/frontpage'){
             /* We'll create deployment yaml from Helm */
