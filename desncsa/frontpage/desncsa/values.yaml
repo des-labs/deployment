@@ -25,4 +25,4 @@ service:
 
 initContainer:
   repository: mdjohnson/vault-init
-  tag: latest
+  tag: v1
