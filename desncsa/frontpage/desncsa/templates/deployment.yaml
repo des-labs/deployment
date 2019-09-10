@@ -25,6 +25,13 @@ spec:
       securityContext:
         runAsUser: {{ .Values.image.uid }}
         runAsGroup: {{ .Values.image.gid }}
+      initContainers:
+        - name: vault-init
+          image:  "{{ .Values.initContainer.repository }}:{{ .Values.initContainer.tag }}"
+          volumeMounts:
+          - name: config-all
+            mountPath: "configs/desaccess.yaml"
+            subPath: "desaccess.yaml"
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ .Values.name }}
@@ -43,5 +50,4 @@ spec:
           subPath: "desaccess.yaml"
       volumes:
       - name: config-all
-        secret:
-          secretName: "{{ .Values.name }}"
+        hostPath: {}
