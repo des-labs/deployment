@@ -30,8 +30,8 @@ spec:
           image:  "{{ .Values.initContainer.repository }}:{{ .Values.initContainer.tag }}"
           volumeMounts:
           - name: config-all
-            mountPath: "configs/desaccess.yaml"
-            type: File
+            mountPath: "/home/des/des_ncsa/config/desaccess.yaml"
+            subPath: "desaccess.yaml"
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ .Values.name }}
@@ -47,7 +47,7 @@ spec:
         volumeMounts:
         - name: config-all
           mountPath: "/home/des/des_ncsa/config/desaccess.yaml"
-          type: File
+          subPath: "desaccess.yaml"
       volumes:
       - name: config-all
         emptyDir: {}
