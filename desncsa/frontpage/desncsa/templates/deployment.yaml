@@ -50,4 +50,4 @@ spec:
           subPath: "desaccess.yaml"
       volumes:
       - name: config-all
-        hostPath: {}
+        emptyDir: {}
