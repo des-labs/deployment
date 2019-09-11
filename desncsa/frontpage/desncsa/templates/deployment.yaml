@@ -28,6 +28,7 @@ spec:
       initContainers:
         - name: vault-init
           image:  "{{ .Values.initContainer.repository }}:{{ .Values.initContainer.tag }}"
+          command: ['sh', '-c', '/des004/deslabs/jenkins_home/vault.sh']
           volumeMounts:
           - name: config-all
             mountPath: "/home/des/des_ncsa/config/desaccess.yaml"
