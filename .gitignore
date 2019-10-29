@@ -25,4 +25,4 @@ deslabs/easycli/deploy*
 deslabs/jlab-server/jlab-server/config/*
 deslabs/jlab-server/deploy*
 
-
+.DS_Store
