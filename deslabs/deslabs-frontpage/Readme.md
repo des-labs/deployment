@@ -13,7 +13,7 @@ docker build -t helm:v2.15.1 helm-docker
 
 Clone the `des-labs/deployment` repo and generate the Kubernetes config file for the default backend service:
 ```
-git clone https://github.com/des-labs/deployment des-labs/deployment
+git clone --recursive --branch desapps https://github.com/des-labs/deployment des-labs/deployment
 cd des-labs/deployment/ingress
 docker run --rm -v $(pwd):/apps helm:v2.15.1 template default-backend > deploy_default_backend.yaml
 ```
@@ -26,7 +26,7 @@ kubectl apply -f deploy_default_backend.yaml
 
 Clone the `des-labs/deployment` repo and generate the Kubernetes config file for the ingress controller:
 ```
-git clone https://github.com/des-labs/deployment des-labs/deployment
+git clone --recursive --branch desapps https://github.com/des-labs/deployment des-labs/deployment
 cd des-labs/deployment/ingress
 docker run --rm -v $(pwd):/apps helm:v2.15.1 template ingress-controller > deploy_nginx_ingress_controller.yaml
 ```
@@ -42,7 +42,7 @@ docker run -d -p 5000:5000 --name registry registry:2
 ```
 Clone the deployment repo
 ```
-git clone https://github.com/des-labs/deployment des-labs/deployment
+git clone --recursive --branch desapps https://github.com/des-labs/deployment des-labs/deployment
 ```
 Build the Docker image defined by `des-labs/deployment/deslabs/deslabs-frontpage/Dockerfile`. During the build process, a separate git repo [`des-labs/frontpage`](https://github.com/des-labs/frontpage) is cloned so that the web page files in `des-labs/frontpage:/public_html` can be copied into the `frontpage` image.
 ```
