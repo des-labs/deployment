@@ -12,8 +12,8 @@ ingress:
 image:
   uid: 1001
   gid: 1001
-  repository: mdjohnson/deslabs-frontpage
-  tag: "2.4.0"
+  repository: localhost:5000/deslabs-frontpage
+  tag: "latest"
   pullPolicy: IfNotPresent
 
 service:

@@ -20,4 +20,4 @@ ingressClass: "deslabs"
 
 nodeSelector:
   key: "kubernetes.io/hostname"
-  value: "desrelease.cosmology.illinois.edu"
+  value: "desapps.cosmology.illinois.edu"
