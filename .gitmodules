@@ -1,3 +1,4 @@
 [submodule "deslabs/deslabs-frontpage/src-repo"]
 	path = deslabs/deslabs-frontpage/src-repo
 	url = https://github.com/des-labs/frontpage.git
+	branch = dev
