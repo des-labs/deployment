@@ -6,7 +6,8 @@ deslabs/mysql/deploy*.yaml
 deslabs/redis/deploy*.yaml
 deslabs/desaccess/deploy*.yaml
 deslabs/deslabs-frontpage/deploy*.yaml
-deslabs/desaccess/desaccess
+# deslabs/desaccess/desaccess is now a git submodule
+#deslabs/desaccess/desaccess
 
 desheart/grafana/deploy_grafana.yaml
 desheart/monitor/deploy*

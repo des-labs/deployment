@@ -2,3 +2,7 @@
 	path = deslabs/deslabs-frontpage/src-repo
 	url = https://github.com/des-labs/frontpage.git
 	branch = dev
+[submodule "deslabs/desaccess/desaccess"]
+	path = deslabs/desaccess/desaccess
+	url = https://github.com/mgckind/desaccess.git
+	branch = dev
