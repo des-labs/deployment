@@ -45,3 +45,4 @@ spec:
       - name: config-all
         hostPath:
           path: {{ .Values.config_dir }}
+          type: Directory
