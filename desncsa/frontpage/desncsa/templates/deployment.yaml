@@ -25,14 +25,6 @@ spec:
       securityContext:
         runAsUser: {{ .Values.image.uid }}
         runAsGroup: {{ .Values.image.gid }}
-      initContainers:
-        - name: vault-init
-          image:  "{{ .Values.initContainer.repository }}:{{ .Values.initContainer.tag }}"
-          command: ['sh', '-c', 'export VAULT_TOKEN=$(cat .certs/.token.txt | base64 -d) && vault login -no-store token=$VAULT_TOKEN && vault kv get -field desaccess.yaml des/desaccess.yaml | base64 -d > /home/des/des_ncsa/config/desaccess.yaml']
-          volumeMounts:
-          - name: config-all
-            mountPath: "/home/des/des_ncsa/config"
-            subPath: "desaccess.yaml"
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: {{ .Values.name }}
@@ -51,4 +43,6 @@ spec:
           subPath: "desaccess.yaml"
       volumes:
       - name: config-all
-        emptyDir: {}
+        hostPath:
+          path: {{ .Values.config_dir }}
+          type: Directory
