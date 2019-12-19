@@ -36,15 +36,6 @@ node {
             app.push("latest")
         }
     }
-   stage('Grab secrets from vault'){
-        withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
-            // values will be masked
-            sh 'vault login -method=github token=$TOKEN'
-            sh "mkdir -p ${env.WORKSPACE}/configs"
-            sh "vault kv get -field desaccess.yaml des/desaccess.yaml | base64 -d > ${env.WORKSPACE}/configs/desaccess.yaml"
-            sh "mv ${env.WORKSPACE}/configs ${env.WORKSPACE}/github/desncsa/frontpage/desncsa/" 
-        }
-    }
 
    stage('Create Helm templates') {
         dir('github/desncsa/frontpage'){
@@ -79,17 +70,17 @@ node {
      stage('Deploy to kubernetes') {
         /* Now, we'll deploy latest build on kubernetes */
         dir('bitbucket/desncsa-frontpage'){
-            count= sh (script: "kubectl get deployments -n deslabs desncsa-main -o json | jq .status.replicas",
+            count= sh (script: "kubectl get deployments -n default desncsa-main -o json | jq .status.replicas",
                       returnStdout: true).trim()
             sh "kubectl apply -f deploy_desncsa.yaml" 
             sh "sleep 90"
-            post_count = sh (script: "kubectl get deployments -n deslabs desncsa-main -o json | jq .status.updatedReplicas",
+            post_count = sh (script: "kubectl get deployments -n default desncsa-main -o json | jq .status.updatedReplicas",
                       returnStdout: true).trim() 
             if (post_count >= count) {
                 echo "Deployment successful. Continuing..."
             } else {
                 sh "sleep 90"
-                post_count_2 = sh (script: "kubectl get deployments -n deslabs desncsa-main -o json | jq .status.updatedReplicas",
+                post_count_2 = sh (script: "kubectl get deployments -n default desncsa-main -o json | jq .status.updatedReplicas",
                       returnStdout: true).trim()
                 if (post_count_2 >= count) {
                     echo "Deployment successful. Continuing..."
