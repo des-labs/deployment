@@ -2,7 +2,7 @@
 # Matias Carrasco Kind <mgckind@gmail.com>
 FROM python:3
 # Basic python reqs
-RUN pip install --no-cache-dir tornado jira netaddr bcrypt pyyaml
+RUN pip install --no-cache-dir tornado==5.1 jira netaddr bcrypt pyyaml
 RUN useradd --create-home --shell /bin/bash des --uid 1001
 # Copy code
 WORKDIR /home/des
