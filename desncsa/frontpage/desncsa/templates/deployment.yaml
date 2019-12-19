@@ -39,7 +39,7 @@ spec:
           name: {{ .Values.name }}
         volumeMounts:
         - name: config-all
-          mountPath: "/home/des/des_ncsa/config/"
+          mountPath: "/home/des/des_ncsa/config/desaccess.yaml"
           subPath: "desaccess.yaml"
       volumes:
       - name: config-all
