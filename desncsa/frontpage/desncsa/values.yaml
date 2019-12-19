@@ -4,7 +4,7 @@
 name: desncsa-main
 version: "0.0.0"
 namespace: 'deslabs-devel'
-config_dir: /des004/deslabs/config
+config_dir: /des004/deslabs/config/
 
 replicaCount: 1
 
