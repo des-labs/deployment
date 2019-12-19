@@ -43,5 +43,5 @@ spec:
           subPath: "desaccess.yaml"
       volumes:
       - name: config-all
-        secret:
-          secretName: "{{ .Values.name }}"
+        hostPath:
+          path: {{ .Values.config_dir }}
