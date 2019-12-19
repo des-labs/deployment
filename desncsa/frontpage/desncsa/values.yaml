@@ -4,6 +4,7 @@
 name: desncsa-main
 version: "0.0.0"
 namespace: 'deslabs-devel'
+config_dir: /des004/deslabs/config
 
 replicaCount: 1
 
@@ -23,6 +24,3 @@ service:
   type: ClusterIP
   port: 8080
 
-initContainer:
-  repository: mdjohnson/vault-init
-  tag: v7
